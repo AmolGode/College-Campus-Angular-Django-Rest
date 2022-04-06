@@ -1,0 +1,87 @@
+
+<mat-card class="example-card">
+    <span class="vertical-three-dot" *ngIf="replay_obj.replay_by_user === logged_in_user">
+  
+      <button mat-icon-button (click)="openVerticallyCentered(content)"><mat-icon>more_vert</mat-icon></button>
+    </span>
+  
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url(' + profile_img_url + ')'}">
+        <!-- <img class="avatar mat-elevation-z8" [src]="profile_img_url" alt="profile_pic">   -->
+      </div>
+  
+      <mat-card-title>{{replay_obj.first_name}} {{replay_obj.last_name}}</mat-card-title>
+      <mat-card-subtitle>{{replay_obj.time_stamp.substring(0, 10)}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <pre class="replay-text">{{replay_obj.replay_text}}</pre>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-stroked-button color="primary" (click)="add_replay_like(replay_obj.id)">
+        <mat-icon>thumb_up</mat-icon>
+      </button> <span class="likes">{{replay_obj.likes}}</span>
+  
+  
+      <button mat-stroked-button color="primary" color="primary" (click)="replay_toggle()">
+        Replay
+      </button>
+  
+  
+      <!--Add Replay start -->
+      <div *ngIf="replay_show">
+        <app-add-replay-to-replay [replay_obj]="replay_obj"></app-add-replay-to-replay>
+      </div>
+      <!--Add Replay end -->
+  
+  
+    </mat-card-actions>
+  
+    <!-- Save and delete btn loading -->
+    <button class="btn btn-primary" type="button" disabled *ngIf="save_edit_btn_loding">
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Wait...
+    </button>
+  
+    <button class="btn btn-primary" type="button" disabled *ngIf="delete_btn_loding">
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Wait...
+    </button>
+    <!-- save and delete btn loading end -->
+  
+  
+  </mat-card>
+  
+  
+  <!-- model Edit or delete start -->
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Edit or delete your replay...!</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="container">
+          <form>
+              <textarea placeholder='Add Your Replay' #replay_input>{{replay_obj.replay_text}}</textarea>
+              <div class="">
+                <button mat-raised-button color="primary" class="save-button"
+                (click)="save_edited_replay(replay_input.value)" (click) = "replay_input.value = ''" (click)="modal.close('Close click')" *ngIf="!save_edit_btn_loding">Save</button>
+  
+                
+  
+                  <button mat-raised-button color="primary" class="save-button"
+                (click)="delete_replay(replay_obj.id)" (click) = "replay_input.value = ''" (click)="modal.close('Close click')" *ngIf="!delete_btn_loding">Delete</button>
+  
+              </div>
+          </form>
+      
+      </div>
+    </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+  <!-- model Edit or delete end -->

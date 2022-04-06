@@ -1,0 +1,37 @@
+
+.container
+{
+    /* width: 600px; */
+    border: 2px solid #333;
+    padding: 15px 10px;
+    margin: 25px 50px 25px 0px;
+}
+.container h2
+{
+    text-align: center;
+    margin-bottom: 15px
+}
+textarea
+{
+    /* height: 50px; */
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #aaa;
+    background-color: transparent;
+    margin-bottom: 10px;
+    resize: none;
+    outline: none;
+    transition: .5s
+}
+
+
+.post-button{
+    margin-right: 10px;
+}
+
+.notification{
+    position: absolute;
+    z-index: 1;
+    top: 50vh;
+    left: 10vh;
+}

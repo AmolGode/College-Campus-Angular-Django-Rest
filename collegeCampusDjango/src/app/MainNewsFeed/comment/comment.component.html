@@ -1,0 +1,105 @@
+
+<mat-card class="example-card">
+    <span class="vertical-three-dot" *ngIf="comment_obj.comment_by_user === logged_in_user">
+  
+      <button mat-icon-button (click)="openVerticallyCentered(content)"><mat-icon>more_vert</mat-icon></button>
+    </span>
+    
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url(' + profile_img_url + ')'}">
+        <!-- <img class="avatar mat-elevation-z8" [src]="profile_img_url" alt="profile_pic">   -->
+      </div>
+  
+      <mat-card-title>{{comment_obj.first_name}} {{comment_obj.last_name}}</mat-card-title>
+      <mat-card-subtitle>{{comment_obj.time_stamp.substring(0, 10)}}</mat-card-subtitle>
+  
+  
+    </mat-card-header>
+    <mat-card-content>
+      <pre class="comment-text">{{comment_obj.comment_text}}</pre>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-stroked-button color="primary" (click)="add_comment_like(comment_obj.id)">
+        <mat-icon>thumb_up</mat-icon>
+      </button> <span class="likes">{{comment_obj.likes}}</span>
+  
+  
+      <button mat-stroked-button color="primary" color="primary" (click)="get_comment_replay(comment_obj.id)"
+        *ngIf="!replay_msg_loading">
+        {{comment_obj.replay_count}}<mat-icon>message</mat-icon>
+      </button>
+  
+      <button class="btn btn-primary" type="button" disabled *ngIf="replay_msg_loading">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Wait..
+      </button>
+  
+      <button mat-stroked-button color="primary" color="primary" (click)="replay_toggle()">
+        Replay
+      </button>
+  
+      <!--Add Replay start -->
+      <div *ngIf="replay_show">
+        <app-add-replay [comment_obj]="comment_obj"></app-add-replay>
+      </div>
+      <!--Add Replay end -->
+  
+  
+      <!-- show replay -->
+      <div *ngFor="let rep of replay_arr_obj">
+        <app-replay [replay_obj]="rep"></app-replay>
+      </div>
+      <!-- show replay end -->
+  
+  
+    </mat-card-actions>
+  
+    <!-- Save and delete btn loading -->
+  <button class="btn btn-primary" type="button" disabled *ngIf="save_edit_btn_loding">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Wait...
+  </button>
+  
+  <button class="btn btn-primary" type="button" disabled *ngIf="delete_btn_loding">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Wait...
+  </button>
+  <!-- save and delete btn loading end -->
+  
+  </mat-card>
+  
+  
+  
+  
+  <!-- model Edit or delete start -->
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Edit or delete your comment...!</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <h2>Leave Us a Comment</h2>
+        <textarea placeholder='Add Your Comment' #comment_input>{{comment_obj.comment_text}}</textarea>
+        <div class="">
+            <button mat-raised-button color="primary" class="post-button"
+                (click)="save_edited_comment(comment_input.value)" (click) = "comment_input.value = ''" (click)="modal.close('Close click')" *ngIf="!save_edit_btn_loding">Save</button>
+  
+                
+  
+                  <button mat-raised-button color="primary" class="post-button"
+                (click)="delete_comment(comment_obj.id)" (click) = "comment_input.value = ''" (click)="modal.close('Close click')" *ngIf="!delete_btn_loding">Delete</button>
+  
+                
+  
+            <!-- <button type="reset" mat-stroked-button>Clear</button> -->
+        </div>
+    </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+  <!-- model Edit or delete end -->

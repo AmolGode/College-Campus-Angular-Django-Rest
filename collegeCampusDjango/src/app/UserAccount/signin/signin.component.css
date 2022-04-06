@@ -1,0 +1,46 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+
+  .mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
+
+
+
+
+  /* Custom Css */
+mat-card-footer{
+    text-align: center;
+}
+mat-card-footer button{
+    margin-left: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+/* 
+mat-card-footer a{
+    padding-left: 50px;
+} */
+.spinner{
+  margin: auto;
+}
+
+mat-card-title{
+    background-color: blue;
+    color: white;
+    text-align: center;
+}
+mat-card-title h1{
+    font-weight: bold;
+    font-size: 30px;
+    padding:25px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

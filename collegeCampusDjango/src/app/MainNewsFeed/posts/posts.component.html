@@ -1,0 +1,172 @@
+
+<mat-card class="example-card">
+    <span class="vertical-three-dot" *ngIf="userPostObj.user_id === logged_in_user">
+  
+      <button mat-icon-button (click)="openScrollableContent(editPostContent)"><mat-icon>more_vert</mat-icon></button>
+    </span>
+  
+    <!-- model edit post view -->
+   <ng-template #editPostContent let-modal>
+    <!-- <form [formGroup]="editPostForm" (ngSubmit)="save_edited_post(editPostForm.value)"> -->
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-basic-title">Edit Post</h2>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+            <button type="button" mat-raised-button color="accent">{{primary_group_obj.group_name}}</button>
+            &nbsp;
+            <button type="button" mat-raised-button color="accent">{{primary_group_obj.user_type}}</button>
+        </div>
+  
+            <div class="form-group">
+              <div class="input-group">
+  
+                <div class="select-post-image">
+                  <p>Change Post Image Here</p>
+                  <button type="file" mat-stroked-button color="primary">
+                    <mat-icon>image</mat-icon>
+                  </button>
+                  <input type="file" (change)="onImageChange($event)">
+                  <button type="button" class="edit-save-btn" mat-raised-button color="primary" (click)="save_edited_post_image()" *ngIf="!edited_post_image_loader">Save</button>
+                  <button class="btn btn-primary" type="button" disabled *ngIf="edited_post_image_loader">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                  </button>
+                </div>
+  
+                    <textarea rows="10" cols="30" value="" matInput placeholder="Say Something..." class="post-text-area" #comment_input>{{userPostObj.post_text}}</textarea>
+                    <button type="button" class="edit-save-btn" mat-raised-button color="primary" (click)="save_edited_post_text(comment_input.value)" *ngIf="!edited_post_text_loader">Save</button>
+                    <button class="btn btn-primary" type="button" disabled *ngIf="edited_post_text_loader">
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      Loading...
+                    </button>
+                    
+              </div>
+              <div class="post-attatchments">
+                <p>Select Document Here</p>
+                <button type="button" mat-stroked-button color="primary">
+                  <mat-icon>attach_file</mat-icon>
+                </button>
+                <input type="file" (change)="onDocumentChange($event)">
+                <button type="button" class="edit-save-btn" class="edit-save-btn" mat-raised-button color="primary" (click)="save_edited_post_document()" *ngIf="!edited_post_document_loader">Save</button>
+                <button class="btn btn-primary" type="button" disabled *ngIf="edited_post_document_loader">
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Loading...
+                </button>
+              </div>
+  
+              <div class="post-select">
+                <mat-divider></mat-divider>
+                
+                <label>Select Post Section</label><br>
+                <mat-radio-group class="select-post-section" [(ngModel)]="userPostObj.post_type">  <!---[(ngModel)]="userPostObj.post_type changed..! -->
+                  <mat-radio-button value="Study Post">Study Post</mat-radio-button>
+                  <mat-radio-button value="Doubt Section">Doubt Section</mat-radio-button>
+                  <mat-radio-button value="Notice" [disabled]="primary_group_obj.user_type != 'Admin'">Notice</mat-radio-button>
+                  <mat-radio-button value="Career Portal"  [disabled]="primary_group_obj.user_type != 'Admin'">Career Portal</mat-radio-button>
+                </mat-radio-group>
+
+                <button type="button" class="edit-save-btn" mat-raised-button color="primary" (click)="save_edited_post_type()" *ngIf="!edited_post_type_loader">Save</button>
+                <button class="btn btn-primary" type="button" disabled *ngIf="edited_post_type_loader">
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Loading...
+                </button>
+              </div>
+          
+            </div>
+  
+      </div>
+      <div class="modal-footer">
+        <button type="button" mat-raised-button color="danger" (click)="delete_post()" (click)="modal.close('cancel click')"
+         *ngIf="!delete_post_loader" class="delete-post-btn">Delete</button>
+                <button class="btn btn-primary" class="edit-save-btn" type="button" disabled *ngIf="delete_post_loader">
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Loading...
+                </button>
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Cancel</button>
+        
+      </div>
+  <!-- </form>  -->
+   </ng-template>
+  
+   <!-- model edit post view -->
+  
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url(' + profile_img_url + ')'}">
+      </div>  
+      <mat-card-title>{{userPostObj.first_name}} {{userPostObj.last_name}}</mat-card-title>
+      <mat-card-subtitle>{{userPostObj.time_stamp.substring(0, 10)}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="img_url" alt="Post Image...!" *ngIf="haveImage">
+      <mat-card-content>
+        <pre class="post-text">{{userPostObj.post_text}}</pre>
+    </mat-card-content>
+    <mat-card-actions>
+      
+      <!-- <mat-divider></mat-divider> -->
+      <button class="small-btn" mat-stroked-button color="primary" (click)="add_like(userPostObj.post_id)"><mat-icon>thumb_up</mat-icon></button> <span class="likes">{{post_likes}}</span>
+      
+  
+      <button class="small-btn" mat-stroked-button color="primary" color="primary" (click)="openScrollableContent(fullPostContent)" (click)="get_post_comments(userPostObj.post_id)">
+        <mat-icon>message</mat-icon>
+       {{userPostObj.comments_count}} Comments
+      </button>
+      <!-- <span class="likes">17</span> -->
+  
+      <a [href]="doc_url" target="_blank" class="small-btn" mat-stroked-button color="primary" *ngIf="haveDocument" download><mat-icon>download</mat-icon>{{documentExtension}}</a>
+    </mat-card-actions>
+  </mat-card>
+  
+  
+   <!-- model full post view -->
+   <ng-template #fullPostContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Full Post View</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+  
+  
+      <mat-card class="example-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url(' + profile_img_url + ')'}">
+          </div>  
+          <mat-card-title>{{userPostObj.first_name}} {{userPostObj.last_name}}</mat-card-title>
+          <mat-card-subtitle>{{userPostObj.time_stamp.substring(0, 10)}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [src]="img_url" alt="Post Image...!" *ngIf="haveImage">
+          <mat-card-content>
+            <pre class="post-text">{{userPostObj.post_text}}</pre>
+        </mat-card-content>
+        <mat-card-actions>
+          <!-- <a mat-stroked-button color="primary" (click)="add_like(userPostObj.post_id)">LIKE </a> <span class="likes">{{post_likes}}</span>
+          <a [href]="doc_url" target="_blank" mat-stroked-button color="primary" *ngIf="haveDocument" download><mat-icon>download</mat-icon></a>
+          {{documentExtension}} -->
+      
+          
+        </mat-card-actions>
+      </mat-card>
+      
+      <app-add-comment [post_obj]="userPostObj"></app-add-comment>
+      <mat-divider></mat-divider>
+      <button class="btn btn-primary" type="button" disabled *ngIf="comment_loader">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+      </button>
+      <div *ngFor="let comment of post_comments_obj">
+        <app-comment [comment_obj] = "comment"></app-comment>
+      </div>
+       
+      <mat-divider></mat-divider>
+  
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+  <!-- model full post view -->

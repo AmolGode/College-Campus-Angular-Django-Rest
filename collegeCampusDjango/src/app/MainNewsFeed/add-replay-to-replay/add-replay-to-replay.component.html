@@ -1,0 +1,21 @@
+<div class="container">
+    <form>
+        <textarea placeholder='Add Your Replay' #replay_input>Replay To : @{{replay_obj.first_name}} {{replay_obj.last_name}} </textarea>
+        <div class="">
+            <button type="reset" mat-raised-button color="primary" class="post-button"
+                (click)="add_replay(replay_input.value)" (click)="replay_input.value = ''" *ngIf="!post_btn_loding">Post</button>
+                <button class="btn btn-primary" type="button" disabled *ngIf="post_btn_loding">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                  </button>
+            <button type="reset" mat-stroked-button>Clear</button>
+        </div>
+    </form>
+
+</div>
+
+<!-- <div class="notification" *ngIf="replay_notification_show">
+    <ngb-toast header="Notification" [delay]="2000" [autohide]="true" (hidden)="close_notification()">
+        {{notification_message}}
+      </ngb-toast>
+</div> -->

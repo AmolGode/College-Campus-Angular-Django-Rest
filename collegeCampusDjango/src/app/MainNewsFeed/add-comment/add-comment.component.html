@@ -1,0 +1,23 @@
+<div class="container">
+    <form>
+        <h2>Leave Us a Comment</h2>
+        <textarea placeholder='Add Your Comment' #comment_input></textarea>
+        <div class="">
+            <button mat-raised-button color="primary" class="post-button"
+                (click)="add_comment(comment_input.value)" (click) = "comment_input.value = ''" *ngIf="!post_btn_loding">Post</button>
+
+                <button class="btn btn-primary" type="button" disabled *ngIf="post_btn_loding">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                  </button>
+            <button type="reset" mat-stroked-button>Clear</button>
+        </div>
+    </form>
+
+</div>
+
+<div class="notification" *ngIf="comment_notification_show">
+    <ngb-toast header="Notification" [delay]="2000" [autohide]="true" (hidden)="close_notification()">
+        {{notification_message}}
+      </ngb-toast>
+</div> 

@@ -1,0 +1,407 @@
+<mat-toolbar>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" *ngIf="deviceIsXsOrSm" (click)="sidebarToggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+   College Campus
+
+   <button mat-icon-button class="example-icon logout-button" aria-label="Example icon-button with menu icon"  data-toggle="tooltip"  tabindex="0" title="Logout" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container>
+    <mat-sidenav [mode]="sidebarMode" [opened]="opened">
+      <span *ngIf="userProfileInfo">
+        <img class="avatar mat-elevation-z8" [src]="profile_pic_url">
+        <h4 class="name"> {{userProfileInfo.first_name}} {{userProfileInfo.last_name}}</h4>
+        <p class="designation">{{userProfileInfo.user_id}}</p>
+      </span> 
+        <mat-divider></mat-divider>
+
+        <button mat-button class="menu-button" (click)="open(ProfileContent)">
+            <mat-icon>person</mat-icon>
+            <span>Profile</span>
+        </button>
+
+        <button mat-button (click)="open(JoinGroupContent)" class="menu-button">
+            <mat-icon>groups</mat-icon>
+            <span>Join Group</span>
+        </button>
+
+        <button mat-button (click)="open(CreateGroupContent)" class="menu-button">
+            <mat-icon>group_add</mat-icon>
+            <span>Create Group</span>
+        </button>
+
+        <button mat-button (click)="open(PostOnGroupContent)" class="menu-button">
+          <mat-icon>publish</mat-icon>
+          <span>Post Something...</span>
+      </button>
+
+        <mat-divider></mat-divider>
+
+        <button mat-button class="menu-button">
+            <!-- <mat-icon>list</mat-icon> -->
+            <span>Joined Group List &nbsp;</span>
+            <mat-icon matBadge="{{group_list_count}}" matBadgeColor="primary">groups</mat-icon>
+        </button>
+        <div>
+          <button class="btn btn-primary" type="button" disabled *ngIf="group_list_loader">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+          </button>
+          <span *ngFor="let gl of groupList">
+            <button mat-button (click)="open(GroupInfoContent)" (click)="get_group_info(gl)" class="menu-button" >
+                <mat-icon [className]="gl.primary=='True'?'primary-group':''">label_important</mat-icon>
+                <span>{{gl.group_name}}</span>
+                <!-- <span>(primary)</span> -->
+            </button>
+          </span>
+
+          
+        </div>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <!-- <div class="content mat-elevation-z8">
+
+            <div class="row" >
+              <span *ngFor="let post of userPost">
+                <div class="col-xl-4 col-md-6 col-sm-12 col-xs-12">
+                  <app-posts [userPostObj]="post"></app-posts>
+                  <app-posts [userPostObj]="post"></app-posts>
+                </div>
+              </span>
+                
+                
+            </div>
+        </div> -->
+<!-- 
+        <div class="content mat-elevation-z8">
+          <div class="row" >
+            <div class="col-xl-5 col-md-5 col-sm-12 col-xs-12" *ngFor="let post of userPost">
+              <app-posts [userPostObj]="post"></app-posts>
+            </div>
+          </div>
+      </div> -->
+
+      
+      <mat-spinner class="spinner" *ngIf="spinner"></mat-spinner>
+      
+
+      <div class="">
+        <div class="profile-section mat-elevation-z8" *ngIf="!deviceIsXsOrSm" style="background-image:  url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAHJqZOv188M0SIThY4g0TVhPUbpB5blNSrQ&usqp=CAU)">
+          <!-- <h1>Name : Amol Gode..!</h1> -->
+        </div>
+        <div class="post-section">
+          <div class="" *ngFor="let post of userPost">
+            <app-posts [userPostObj]="post"></app-posts>
+          </div> 
+          <div class="more-button">
+            <button mat-raised-button color="primary" (click)="get_group_post(postType)" *ngIf="!post_loader">More...!</button>
+
+            <button class="btn btn-primary" type="button" disabled *ngIf="post_loader">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Loading...
+            </button>
+
+          </div>
+
+          
+    
+
+        </div>
+      </div>
+
+       <!-- model Profile start -->
+       <ng-template #ProfileContent let-modal>
+        <form [formGroup]="editProfileForm" (ngSubmit)="editProfile(editProfileForm.value)">
+            <div class="modal-header">
+              <h2 class="modal-title" id="modal-basic-title">Edit Profile</h2>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" *ngIf="userProfileInfo">
+              <input type="file" (change)="onFileSelectProfilePic($event)" class="hidden" #profile_pic_input>
+              <img class="avatar mat-elevation-z8" [src]="profile_pic_url" alt="" (click)="profile_pic_input.click()"> 
+
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>First Name</mat-label>
+                    <input matInput placeholder="Enter First Name Here" [(ngModel)]="userProfileInfo.first_name" formControlName="first_name">
+                </mat-form-field>
+                
+
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput placeholder="Enter Last Name Here" [(ngModel)]="userProfileInfo.last_name" formControlName="last_name">
+                </mat-form-field>
+
+                <mat-radio-group aria-label="Select an option" formControlName="gender" [(ngModel)]="userProfileInfo.gender">
+                    <mat-radio-button value="Male">Male</mat-radio-button>
+                    <mat-radio-button value="Female">Female</mat-radio-button>
+                  </mat-radio-group>
+
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>College Name</mat-label>
+                    <input matInput placeholder="Enter College Name Here" [(ngModel)]="userProfileInfo.college_name" formControlName="college_name">
+                </mat-form-field>
+
+<!-- 
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Enter Faculty</mat-label>
+                  <input type="text"
+                         placeholder="Pick one"
+                         aria-label="Number"
+                         matInput
+                         [formControl]="myControl"
+                         [matAutocomplete]="auto"
+                         [(ngModel)]="userProfileInfo.faculty">
+                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                      {{option}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                           placeholder="Ex. pat@example.com" [(ngModel)]="userProfileInfo.email"> 
+                    <mat-hint>Errors appear instantly!</mat-hint>
+                    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                      Please enter a valid email address
+                    </mat-error>
+                    <mat-error *ngIf="emailFormControl.hasError('required')">
+                      Email is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field> -->
+
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>User Id</mat-label>
+                    <input matInput placeholder="eg.amol_gode@123" [(ngModel)]="userProfileInfo.user_id" formControlName="user_id">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width"  appearance="fill">
+                    <mat-label>Enter your new password (atleast 4 character required)</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="user_password">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                  </mat-form-field>
+
+                  <!-- <mat-form-field class="example-full-width"  appearance="fill">
+                    <mat-label>Confirm your password</mat-label>
+                    <input matInput [type]="c_hide ? 'password' : 'text'" formControlName="confirm_password">
+                    <button mat-icon-button matSuffix (click)="c_hide = !c_hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="c_hide">
+                      <mat-icon>{{c_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                  </mat-form-field> -->
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-danger delete-button" type="button"  *ngIf="!delete_profile_loader"  (click)="delete_profile()">Delete Profile</button>
+              <button class="btn btn-danger" type="button" disabled *ngIf="delete_profile_loader">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Deleting...
+              </button>
+
+              <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cancel click')">Cancel</button>
+              <button type="submit" class="btn btn-outline-dark" *ngIf="!edit_profile_loader">Save Changes</button>
+              <button class="btn btn-primary" type="button" disabled *ngIf="edit_profile_loader">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Saving...
+              </button>
+            </div>
+        </form>
+    </ng-template>
+    <!-- model Profile end -->
+
+      
+
+      
+
+        <!-- model Send Post start -->
+        <ng-template #PostOnGroupContent let-modal>
+        
+
+          <form [formGroup]="savePostForm" (ngSubmit)="save_post(savePostForm.value)">
+
+            
+          
+            <div class="modal-header">
+              <h2 class="modal-title" id="modal-basic-title">Post Something</h2>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+      <span *ngIf="group_list_count > 0 && primaryGroupId != undefined">
+
+            <div class="modal-body">
+              <div>
+                  <button type="button" mat-raised-button color="primary">{{primary_group_obj.group_name}}</button>
+                  &nbsp;
+                  <button type="button" mat-raised-button color="primary">{{primary_group_obj.user_type}}</button>
+              </div>
+        
+                  <div class="form-group">
+                    <div class="input-group">
+
+                      <div class="select-post-image">
+                        <p>Select Image Here</p>
+                        <button type="file" mat-stroked-button color="primary">
+                          <mat-icon>image</mat-icon>
+                        </button>
+                        <input type="file" (change)="onImageChange($event)" formControlName="image">
+                        <!-- <img src=''> -->
+                      </div>
+
+                          <textarea rows="10" cols="30" [(ngModel)]="Entered_Text" matInput placeholder="Say Something..." class="post-text-area" formControlName="post_text"></textarea>
+                          <!-- <mat-form-field appearance="outline" class="example-full-width">
+                            <mat-label>You can share your link here..</mat-label>
+                            <input matInput placeholder="Enter Your Link Here">
+                            <mat-icon matSuffix>link</mat-icon>
+                            <mat-hint>This field is optional</mat-hint>
+                          </mat-form-field> -->
+                    </div>
+                    <div class="post-attatchments">
+                      <p>Select Document Here</p>
+                      <button type="button" mat-stroked-button color="primary">
+                        <mat-icon>attach_file</mat-icon>
+                      </button>
+                      <input type="file" (change)="onDocumentChange($event)" formControlName="document">
+                    </div>
+
+                    <div class="post-select">
+                      <mat-divider></mat-divider>
+                      <label>Select Post Section</label><br>
+                      <mat-radio-group class="select-post-section" formControlName="post_type">
+                        <mat-radio-button value="Study Post">Study Post</mat-radio-button>
+                        <mat-radio-button value="Doubt Section">Doubt Section</mat-radio-button>
+                        <mat-radio-button value="Notice" [disabled]="primary_group_obj.user_type != 'Admin'">Notice</mat-radio-button>
+                        <mat-radio-button value="Career Portal"  [disabled]="primary_group_obj.user_type != 'Admin'">Career Portal</mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+                    
+                  </div>
+                  <span class="note">**Note : Only Admin can post in Notice and Career Portal.</span>
+
+            </div>
+      </span>
+
+            <div class="modal-footer">
+              <span *ngIf="group_list_count == 0 || primaryGroupId == undefined"> No primary group found..!</span>
+
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Cancel</button>
+              <button type="submit" mat-raised-button color="accent" (click)="modal.close('post click')">Post</button>
+            </div>
+        </form>
+
+         
+
+          
+      </ng-template>
+      <!-- model Send Post end -->
+
+
+        <!-- model Create Group start -->
+        <ng-template #CreateGroupContent let-modal>
+            <form [formGroup]="createGroupForm" (ngSubmit)="createGroup(createGroupForm.value)">
+                <div class="modal-header">
+                  <h2 class="modal-title" id="modal-basic-title">Create Group</h2>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <div class="input-group">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>Group Name</mat-label>
+                                <input matInput placeholder="Enter Group Name Here" value="" formControlName="group_name">
+                            </mat-form-field>
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>Short Description</mat-label>
+                                <input matInput placeholder="Enter Short Description Here" value="" formControlName="group_description">
+                            </mat-form-field>
+                      </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Cancel</button>
+                  <button type="submit" class="btn btn-outline-dark" (click)="modal.close('create click')">Create</button>
+                </div>
+            </form>
+        </ng-template>
+        <!-- model Create Group end -->
+
+        <!-- model Join Group start -->
+        <ng-template #JoinGroupContent let-modal>
+          <form [formGroup]="joinGroupForm" (ngSubmit)="joinGroup(joinGroupForm.value)">
+              <div class="modal-header">
+                <h2 class="modal-title" id="modal-basic-title">Join Group</h2>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group">
+                    <div class="input-group">
+                          <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Joining Link</mat-label>
+                              <input matInput placeholder="Enter joining Link Here" value="" formControlName="group_joining_link">
+                          </mat-form-field>
+                    </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Cancel</button>
+                <button type="submit" class="btn btn-outline-dark" (click)="modal.close('create click')">Join</button>
+              </div>
+          </form>
+      </ng-template>
+      <!-- model Join Group end -->
+
+        <!-- model Group Info start -->
+        <ng-template #GroupInfoContent let-modal>
+                <div class="modal-header">
+                  <h2 class="modal-title" id="modal-basic-title">Group Information</h2>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <button class="btn btn-primary" type="button" disabled *ngIf="group_info_loding">
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Loading...
+                </button>
+                <!-- <span *ngFor="let g of groupInfo" > -->
+                <div class="modal-body" *ngIf="!group_info_loding">
+                    <div class="group-info">
+                        
+                        <h3>User Type : {{groupInfo.user_type}}</h3>
+                        <h3>Group Name : {{groupInfo.group_name}}</h3>
+                        <h3>Description : {{groupInfo.group_description}}</h3>
+                        <mat-divider></mat-divider>
+                        <h3>Joining Link : {{groupInfo.group_joining_link}}</h3>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-outline-danger delete-button" (click)="delete_group_member(groupInfo.group_id,groupInfo.group_name,groupInfo.user_type)" (click)="modal.close('cancel click')">Remove</button>
+
+                  <button type="button" class="btn btn-outline-dark" (click)="set_primary_group(groupInfo.group_id,groupInfo.group_name)" (click)="modal.close('cancel click')">Switch</button>
+    
+                  <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Close</button>
+                </div>
+              <!-- </span> -->
+        </ng-template>
+        <!-- model Group Info end -->
+
+        
+
+        
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+<app-bottom-navigation-bar></app-bottom-navigation-bar>

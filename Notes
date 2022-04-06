@@ -1,0 +1,12 @@
+connect to Mysql database as toor user
+
+mysql -u toor
+
+
+install (in Angular)
+material UI
+Bootstrap
+
+install (in Django) - using pip
+Pillow - for work with image fields
+mysqlclient

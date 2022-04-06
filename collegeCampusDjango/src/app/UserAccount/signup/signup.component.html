@@ -1,0 +1,105 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-6 col-md 6  col-xm-12 col-sm-12 offset-xl-3">
+            <mat-card>
+                <mat-card-title>
+                    <h1>Create Account</h1>
+                </mat-card-title>
+                    <form [formGroup]="signupForm" (ngSubmit)="submitData(signupForm.value)">
+                      <input type="file" (change)="onFileSelectProfilePic($event)" class="hidden" #profile_pic_input>
+                      <img class="avatar mat-elevation-z8" [src]="url" alt="" (click)="profile_pic_input.click()"> 
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>First Name</mat-label>
+                            <input matInput placeholder="Enter First Name Here" value="" formControlName="first_name">
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Last Name</mat-label>
+                            <input matInput placeholder="Enter Last Name Here" value="" formControlName="last_name">
+                        </mat-form-field>
+
+                        <mat-radio-group aria-label="Select an option" formControlName="gender">
+                            <mat-radio-button value="Male">Male</mat-radio-button>
+                            <mat-radio-button value="Female">Female</mat-radio-button>
+                          </mat-radio-group>
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>College Name</mat-label>
+                            <input matInput placeholder="Enter College Name Here" value="" formControlName="college_name">
+                        </mat-form-field>
+
+                        <!-- <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Faculty</mat-label>
+                            <input type="text"
+                                   placeholder="Pick one"
+                                   aria-label="Faculty"
+                                   matInput
+                                   [formControl]="myControl"
+                                   [matAutocomplete]="auto" formControlName="faculty">
+                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{option}}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+
+                          <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Email</mat-label>
+                            <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                                   placeholder="Ex. pat@example.com">
+                            <mat-hint>Errors appear instantly!</mat-hint>
+                            <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                              Please enter a valid email address
+                            </mat-error>
+                            <mat-error *ngIf="emailFormControl.hasError('required')">
+                              Email is <strong>required</strong>
+                            </mat-error>
+                          </mat-form-field> -->
+
+                          <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>User Id</mat-label>
+                            <input matInput placeholder="eg.amol_gode@123" value="" formControlName="user_id">
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width"  appearance="fill">
+                            <mat-label>Enter your password</mat-label>
+                            <input matInput [type]="hide ? 'password' : 'text'" formControlName="user_password" [(ngModel)]="user_pass">
+                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                          </mat-form-field>
+
+                          <mat-form-field class="example-full-width"  appearance="fill">
+                            <mat-label>Confirm your password</mat-label>
+                            <input matInput [type]="c_hide ? 'password' : 'text'" formControlName="confirm_password" [(ngModel)]="confirm_pass">
+                            <button mat-icon-button matSuffix (click)="c_hide = !c_hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="c_hide">
+                              <mat-icon>{{c_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                          </mat-form-field>
+                          <p *ngIf="f['user_password'].touched && user_pass != confirm_pass" class="warning">
+                            Password not matched...!
+                          </p>
+                          
+                          <hr>
+                          <mat-card-footer>
+                            <div *ngIf="!spinnerFlag">
+                              <button type="submit" mat-raised-button color="primary" [disabled]="signupForm.invalid || user_pass != confirm_pass">Submit</button>
+                              <button type="reset" mat-raised-button >Reset</button>
+                            </div>
+                             <mat-spinner class="spinner" *ngIf="spinnerFlag"></mat-spinner>
+                      
+                              <hr>
+                              <a routerLink="signin">Alredy Have Account ?</a>
+                          </mat-card-footer>
+
+                    </form>
+                <mat-card-content>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>
+

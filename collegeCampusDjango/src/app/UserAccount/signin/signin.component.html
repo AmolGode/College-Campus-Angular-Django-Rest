@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xl-6 col-md 6  col-xm-12 col-sm-12 offset-xl-3">
+            <mat-card>
+                <mat-card-title>
+                    <h1>Login</h1>
+                </mat-card-title>
+                    <form [formGroup]="loginForm" (ngSubmit)="loginData(loginForm.value)">
+
+                          <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>User Id</mat-label>
+                            <input matInput placeholder="eg.amol_gode@123" value="" formControlName="user_id">
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width"  appearance="fill">
+                            <mat-label>Enter your password</mat-label>
+                            <input matInput [type]="hide ? 'password' : 'text'" formControlName="user_password">
+                            <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                          </mat-form-field>
+
+                         
+                          <hr>
+                          <mat-card-footer>
+                            <div *ngIf="!spinnerFlag">
+                              <button type="submit" mat-raised-button color="primary">Login</button>
+                              <button type="reset" mat-raised-button >Reset</button>
+                              <hr>
+                            </div>
+                            <mat-spinner class="spinner" *ngIf="spinnerFlag"></mat-spinner>
+                            <hr>
+                              <a routerLink="signup"> Create New Account ? </a>
+                          </mat-card-footer>
+
+                    </form>
+                <mat-card-content>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>
+
+<ul>
+  <li *ngFor="let u of result">
+    {{u.first_name}}
+    {{u.last_name}}
+  </li>
+</ul>

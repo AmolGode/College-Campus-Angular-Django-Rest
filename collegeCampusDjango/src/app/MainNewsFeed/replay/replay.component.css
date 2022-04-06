@@ -1,0 +1,62 @@
+.example-card {
+    /* max-height: 500px; */
+    margin: 10px;
+    background-color: lightblue;
+  }
+  
+  .example-header-image {
+    /* background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg'); */
+    background-size: cover;
+  }
+
+/* Default css end*/
+
+/* Custome css start */
+.likes{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: medium;
+    margin-left: 10px;
+    margin-right: 5px;
+  } 
+
+.replay-text{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 15px;
+  word-wrap: break-word;
+  overflow-x : auto;
+  white-space : pre-wrap;
+  
+}
+
+
+/* edit replay or delete */
+.vertical-three-dot
+{
+  position: absolute;
+  right: 0;
+}
+
+/* edit comment */
+.save-button{
+  margin-right: 10px;
+}
+
+
+textarea
+{
+    height: 70px;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #aaa;
+    background-color: transparent;
+    margin-bottom: 10px;
+    resize: none;
+    outline: none;
+    transition: .5s
+}
+
+
+.post-button{
+    margin-right: 10px;
+}
+/* edit replay or delete end */
