@@ -1,12 +1,81 @@
-connect to Mysql database as toor user
+Clg_Camp_Rest contains Django Rest Api
 
-mysql -u toor
+collegeCampusDjango contains Angular Code
+-------------------------------------------
+Angular Verion =>
+
+amol@amol-Ideapad-320:~/My Code/Python/Project$ ng --version
+
+     _                      _                 ____ _     ___
+    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
+   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
+  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
+ /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
+                |___/
+    
+
+Angular CLI: 13.3.1
+Node: 16.14.2
+Package Manager: npm 8.5.0
+OS: linux x64
+
+Angular: 
+... 
+
+Package                      Version
+------------------------------------------------------
+@angular-devkit/architect    0.1303.1 (cli-only)
+@angular-devkit/core         13.3.1 (cli-only)
+@angular-devkit/schematics   13.3.1 (cli-only)
+@schematics/angular          13.3.1 (cli-only)
+
+-----------------------------------------------------    
+
+for this web app i use mysql database
+Mysql user name is toor
+Hence, in setting.py connect to the database as follow
+<<
+DATABASES = {
+
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'college_campus',
+        'USER': 'toor',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }
+}
+>>
+
+before migrate database make sure to create database 'college_campus'
+
+add Materil UI in angular app as follows :
+$ng add @angular/material
+
+Add bootstrap in angular app as follows:
+ng add @ng-bootstrap/ng-bootstrap
+
+------------------------------------------------
+
+**My pip list :
+
+(cc_env) amol@amol-Ideapad-320:~/My Code/Python/Project$ pip list
+Package             Version
+------------------- -------
+asgiref             3.5.0
+backports.zoneinfo  0.2.1
+Django              4.0.3
+django-cors-headers 3.11.0
+djangorestframework 3.13.1
+ez-setup            0.9
+mysqlclient         2.1.0
+Pillow              9.1.0
+pip                 22.0.4
+pytz                2022.1
+setuptools          61.3.1
+sqlparse            0.4.2
+wheel               0.37.1
+(cc_env) amol@amol-Ideapad-320:~/My Code/Python/Project$ 
 
 
-install (in Angular)
-material UI
-Bootstrap
-
-install (in Django) - using pip
-Pillow - for work with image fields
-mysqlclient

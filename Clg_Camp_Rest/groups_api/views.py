@@ -202,6 +202,7 @@ def join_group(request):
                 except Exception as e:
                     resp = {
                         'resp': 'You have already joined group  '+group_name+'.'}
+                    UserModelGroupsModel.objects.filter(user=py_data.get('user_id'),group=group_id).update(primary=True)#Seting  group which have joining link as given to prmary 
                     print('Exception in join_group : '+str(e))
                 else:
                     print('Something wents wrong....!')

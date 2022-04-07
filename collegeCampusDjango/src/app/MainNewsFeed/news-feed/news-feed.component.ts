@@ -390,6 +390,9 @@ export class NewsFeedComponent implements OnInit {
         console.log("primary grp id : "+this.primaryGroupId);
         if(this.primaryGroupId != undefined)
         {
+          this.userPost = [];//**
+          this.post_limit = 0;//** */
+          
           this.get_group_post(this.postType);
         }
 

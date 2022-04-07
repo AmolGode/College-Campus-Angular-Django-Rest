@@ -1,12 +1,15 @@
 import os
 from django.shortcuts import render
 
+
 from .models import *
 from .serializers import *
 
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from groups_api.models import GroupPostsModel
 # Create your views here.
 
 
@@ -96,11 +99,13 @@ def get_profile_info(request,uid):
 def delete_profile(request, uid):
     user = UserModel.objects.get(id=uid)
     try:
-        os.remove(user.profile_pic.image.path)
-        print('Profile pic deleted..! path = '+str(post.image.path))
+        os.remove(user.profile_pic.path)
+        print('Profile pic deleted..! path = '+str(user.profile_pic))#post.image.path
     except Exception as e:
         print('No profile pic for delete '+str(e))
     try:
+        for post in GroupPostsModel.objects.filter(user=uid):
+            post.delete()
         user.delete()
         resp = {
             'resp': 'User Deleted successfully...!'
