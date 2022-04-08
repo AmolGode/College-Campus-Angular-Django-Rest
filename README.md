@@ -45,9 +45,8 @@ College Campus provides a social networking platform for the students of the col
 # Posts are divided into different sections (Study Post, Doubt Section, Notice, Carrier Portal), you can navigate to them by bottom navigation.
 # In Study Post section Members can share their study material
 
-![Screenshot from 2022-04-08 17-38-29](https://user-images.githubusercontent.com/92290647/162442939-f11571e3-aef0-4d05-9bac-249c15bb6559.png)
 
-
+![Screenshot from 2022-04-08 18-43-44](https://user-images.githubusercontent.com/92290647/162501729-dc870596-4e93-4c38-8676-98909eb3e46c.png)
 
 
 # In Doubt section you can ask questions and other members can answer it in comment section of post.
