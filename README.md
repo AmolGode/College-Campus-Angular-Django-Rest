@@ -2,6 +2,14 @@
 College Campus provides a social networking platform for the students of the college. This enables them to connect with their seniors and juniors for sharing information and resources.
 
 
+# How to run python script
+1] Activate virtual env
+source cp_env/bin/activate
+
+2]Run
+pyhton manage.py runserver
+
+
 
 # Create Account page
 ![Screenshot from 2022-04-08 17-22-59](https://user-images.githubusercontent.com/92290647/162433625-166b96c5-5a1f-4f2e-b88a-8bae83cf7658.png)
